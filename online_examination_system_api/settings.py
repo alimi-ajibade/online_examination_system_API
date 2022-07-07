@@ -39,8 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "debug_toolbar",
     'rest_framework',
-    'questions_and_options',
-    'candidates',
+    'core',
 ]
 
 MIDDLEWARE = [

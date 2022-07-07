@@ -36,3 +36,24 @@ class OptionAdmin(admin.ModelAdmin):
         'answer',
     ]
     autocomplete_fields = ['question']
+    search_fields = ['description']
+
+
+@admin.register(models.Response)
+class ResponseAdmin(admin.ModelAdmin):
+    list_display = [
+        'candidate_id',
+        'question_id',
+        'response'
+    ]
+
+
+@admin.register(models.Candidate)
+class CandidateAdmin(admin.ModelAdmin):
+    list_display = [
+        'first_name',
+        'last_name',
+        'middle_name',
+        'phone_number',
+        # 'email'
+    ]
