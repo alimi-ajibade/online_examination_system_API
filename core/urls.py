@@ -6,5 +6,6 @@ router = SimpleRouter()
 
 router.register('questions', views.QuestionViewset)
 router.register('options', views.OptionViewset)
+router.register('candidates', views.CandidateViewset)
 
 urlpatterns = router.urls

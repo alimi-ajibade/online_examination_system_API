@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.db import models
 from django.conf import settings
 
@@ -5,9 +6,10 @@ from django.conf import settings
 
 
 class Candidate(models.Model):
+    candidate_picture = models.ImageField(
+        upload_to='candidate/images', blank=True, null=True)
     middle_name = models.CharField(max_length=255)
-    # birth_date = models.DateField()
-    phone_number = models.CharField(max_length=255)
+    phone = models.CharField(max_length=20)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
