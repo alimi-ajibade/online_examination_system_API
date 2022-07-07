@@ -55,5 +55,6 @@ class CandidateAdmin(admin.ModelAdmin):
         'last_name',
         'middle_name',
         'phone_number',
-        # 'email'
+        'email'
     ]
+    list_select_related = ['user']
