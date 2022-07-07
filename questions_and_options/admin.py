@@ -17,6 +17,7 @@ class QuestionAdmin(admin.ModelAdmin):
         'options',
         'answer'
     ]
+    search_fields = ['description']
     inlines = [OptionInline]
 
     def options(self, question):
@@ -34,3 +35,4 @@ class OptionAdmin(admin.ModelAdmin):
         'description',
         'answer',
     ]
+    autocomplete_fields = ['question']

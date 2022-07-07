@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'rest_framework',
     'questions_and_options',
+    'candidates',
 ]
 
 MIDDLEWARE = [
