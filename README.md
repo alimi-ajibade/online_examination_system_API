@@ -24,5 +24,5 @@ online_examination_system designed using django and Django Rest Framework.
 
 Star⭐ the repo if you like what you see😉.
 
-🤓 Author
+## 🤓 Author
 Alimi David Olusegun
