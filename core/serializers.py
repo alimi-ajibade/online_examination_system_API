@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Question, Option, Candidate, Response
+from .models import Question, Option, Candidate, CandidateResponse, Score
 
 
 class OptionSerializer(serializers.ModelSerializer):
@@ -47,7 +47,7 @@ class CandidateSerializer(serializers.ModelSerializer):
 
 class ResponseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Response
+        model = CandidateResponse
         fields = [
             'question_id',
             'candidate_id',
@@ -60,16 +60,20 @@ class ResponseSerializer(serializers.ModelSerializer):
         candidate_response = self.validated_data['candidate_response']
 
         try:
-            response = Response.objects.get(
+            response = CandidateResponse.objects.get(
                 question_id=question_id, candidate_id=candidate_id)
             response.candidate_response = candidate_response
             response.save()
             self.instance = response
-        except Response.DoesNotExist:
-            self.instance = Response.objects.create(
-                question_id=question_id,
-                candidate_id=candidate_id,
+        except CandidateResponse.DoesNotExist:
+            self.instance = CandidateResponse.objects.create(
                 **self.validated_data
             )
 
         return self.instance
+
+
+class ScoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Score
+        fields = ['candidate', 'candidate_score']

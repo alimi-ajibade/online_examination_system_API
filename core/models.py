@@ -37,7 +37,7 @@ class Question(models.Model):
         return self.description[:50]
 
 
-class Response(models.Model):
+class CandidateResponse(models.Model):
     candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE)
     question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
     candidate_response = models.CharField(max_length=1000)
@@ -54,3 +54,11 @@ class Option(models.Model):
 
     def __str__(self) -> str:
         return self.description
+
+
+class Score(models.Model):
+    candidate = models.OneToOneField(Candidate, on_delete=models.CASCADE)
+    candidate_score = models.PositiveIntegerField()
+
+    def user_id(self):
+        return self.candidate.user.id
