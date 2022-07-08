@@ -2,6 +2,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .models import Candidate, Question, Option, CandidateResponse, Score
 from .serializers import QuestionSerializer, OptionSerializer, CandidateSerializer, ResponseSerializer, ScoreSerializer
 # Create your views here.
@@ -10,18 +11,21 @@ from .serializers import QuestionSerializer, OptionSerializer, CandidateSerializ
 class QuestionViewset(ModelViewSet):
     queryset = Question.objects.prefetch_related('options').all()
     serializer_class = QuestionSerializer
+    permission_classes = [IsAdminUser]
 
 
 class OptionViewset(ModelViewSet):
     queryset = Option.objects.all()
     serializer_class = OptionSerializer
+    permission_classes = [IsAdminUser]
 
 
-class CandidateViewset(ModelViewSet):
+class CandidateViewset(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = Candidate.objects.all()
     serializer_class = CandidateSerializer
+    permission_classes = [IsAuthenticated]
 
-    @action(detail=False, methods=['GET', 'PUT'])
+    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
     def me(self, request):
         candidate = Candidate.objects.get(
             user_id=request.user.id)
@@ -38,13 +42,15 @@ class CandidateViewset(ModelViewSet):
 class ResponseViewset(ModelViewSet):
     queryset = CandidateResponse.objects.all()
     serializer_class = ResponseSerializer
+    permission_classes = [IsAdminUser]
 
 
 class ScoreViewset(ModelViewSet):
     queryset = Score.objects.all()
     serializer_class = ScoreSerializer
+    permission_classes = [IsAdminUser]
 
-    @action(detail=False,)
+    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAdminUser])
     def generate_score(self, request):
         questions = Question.objects.all().values('id')
         candidates = Candidate.objects.all().values('id')
