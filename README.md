@@ -20,15 +20,15 @@ online_examination_system designed using django and Django Rest Framework.
   * Generate Candidate Scores
   
   :link: Endpoints
-  * 127.0.0.1:8000/core/questions/     \t(Get, Post, and Update Questions)
+  * 127.0.0.1:8000/core/questions/     =>(Get, Post, and Update Questions)
   * 127.0.0.1:8000/core/options/
   * 127.0.0.1:8000/core/candidates/
-  * 127.0.0.1:8000/core/candidates/me  (Get User Profile)
-  * 127.0.0.1:8000/core/respones/      (Get responses)
-  * 127.0.0.1:8000/core/scores/        (Get scores)
-  * 127.0.0.1:8000/core/scores/        (Compute and return Scores)
-  * 127.0.0.1:8000/auth/users/         (Create User Profiles)
-  * 127.0.0.1:8000/auth/jwt/create     (Login)
+  * 127.0.0.1:8000/core/candidates/me  =>(Get User Profile)
+  * 127.0.0.1:8000/core/respones/      =>(Get responses)
+  * 127.0.0.1:8000/core/scores/        =>(Get scores)
+  * 127.0.0.1:8000/core/scores/        =>(Compute and return Scores)
+  * 127.0.0.1:8000/auth/users/         =>(Create User Profiles)
+  * 127.0.0.1:8000/auth/jwt/create     =>(Login)
   
 
   📮Making requests
