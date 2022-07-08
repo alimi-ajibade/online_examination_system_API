@@ -1,15 +1,15 @@
 from django.contrib import admin
 from django.db.models import Q
-from . import models
+from .models import Question, Option, CandidateResponse, Candidate, Score
 
 # Register your models here.
 
 
 class OptionInline(admin.TabularInline):
-    model = models.Option
+    model = Option
 
 
-@admin.register(models.Question)
+@admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     list_display = [
         'description',
@@ -21,14 +21,14 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [OptionInline]
 
     def options(self, question):
-        queryset = list(models.Option.objects.filter(question_id=question.id))
+        queryset = list(Option.objects.filter(question_id=question.id))
         return queryset
 
     def answer(self, question):
-        return list(models.Option.objects.filter(Q(question_id=question.id) & Q(answer=1)))
+        return list(Option.objects.filter(Q(question_id=question.id) & Q(answer=1)))
 
 
-@admin.register(models.Option)
+@admin.register(Option)
 class OptionAdmin(admin.ModelAdmin):
     list_display = [
         'question',
@@ -39,7 +39,7 @@ class OptionAdmin(admin.ModelAdmin):
     search_fields = ['description']
 
 
-@admin.register(models.Response)
+@admin.register(CandidateResponse)
 class ResponseAdmin(admin.ModelAdmin):
     list_display = [
         'candidate_id',
@@ -48,7 +48,7 @@ class ResponseAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(models.Candidate)
+@admin.register(Candidate)
 class CandidateAdmin(admin.ModelAdmin):
     list_display = [
         'user_id',
@@ -60,3 +60,11 @@ class CandidateAdmin(admin.ModelAdmin):
         'candidate_picture'
     ]
     list_select_related = ['user']
+
+
+@admin.register(Score)
+class ScoreAdmin(admin.ModelAdmin):
+    list_display = [
+        'candidate',
+        'candidate_score',
+    ]
