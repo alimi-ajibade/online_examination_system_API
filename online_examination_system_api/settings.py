@@ -40,12 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "debug_toolbar",
     'rest_framework',
+    "corsheaders",
     'djoser',
     'core',
     'candidate_auth'
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -159,3 +161,6 @@ DJOSER = {
         'user_create': 'candidate_auth.serializers.UserCreateSerializer'
     }
 }
+
+CORS_ALLOWED_ORIGINS = [
+]
