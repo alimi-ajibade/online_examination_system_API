@@ -1,12 +1,10 @@
-from dataclasses import fields
-from requests import options
 from rest_framework import serializers
-from . import models
+from .models import Question, Option, Candidate, Response
 
 
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Option
+        model = Option
         fields = [
             'id',
             'question',
@@ -14,28 +12,64 @@ class OptionSerializer(serializers.ModelSerializer):
         ]
 
 
-class QuestionSerializer(serializers.ModelSerializer):
+class SimpleOptionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Question
+        model = Option
+        fields = [
+            'id',
+            'description',
+        ]
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    options = SimpleOptionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Question
         fields = [
             'id',
             'description',
             'image',
+            'options'
         ]
-
-        opts = serializers.SerializerMethodField(
-            method_name='option_list'
-        )
-
-    # def option_list(self, question: models.Question):
-    #     return list(models.Option.objects.filter(question=question.id))
 
 
 class CandidateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Candidate
+        model = Candidate
         fields = [
-            'user',
+            'id',
+            'user_id',
             'phone_number',
             'candidate_picture',
         ]
+
+
+class ResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Response
+        fields = [
+            'question_id',
+            'candidate_id',
+            'candidate_response'
+        ]
+
+    def save(self, **kwargs):
+        question_id = self.validated_data['question_id']
+        candidate_id = self.validated_data['candidate_id']
+        candidate_response = self.validated_data['candidate_response']
+
+        try:
+            response = Response.objects.get(
+                question_id=question_id, candidate_id=candidate_id)
+            response.candidate_response = candidate_response
+            response.save()
+            self.instance = response
+        except Response.DoesNotExist:
+            self.instance = Response.objects.create(
+                question_id=question_id,
+                candidate_id=candidate_id,
+                **self.validated_data
+            )
+
+        return self.instance

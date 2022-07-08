@@ -28,7 +28,7 @@ class QuestionAdmin(admin.ModelAdmin):
         return list(models.Option.objects.filter(Q(question_id=question.id) & Q(answer=1)))
 
 
-@ admin.register(models.Option)
+@admin.register(models.Option)
 class OptionAdmin(admin.ModelAdmin):
     list_display = [
         'question',
@@ -44,17 +44,18 @@ class ResponseAdmin(admin.ModelAdmin):
     list_display = [
         'candidate_id',
         'question_id',
-        'response'
+        'candidate_response'
     ]
 
 
 @admin.register(models.Candidate)
 class CandidateAdmin(admin.ModelAdmin):
     list_display = [
+        'user_id',
         'first_name',
         'last_name',
         'middle_name',
-        'phone',
+        'phone_number',
         'email',
         'candidate_picture'
     ]
